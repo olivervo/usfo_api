@@ -19,8 +19,10 @@
         "personnummer/personnummer": "^3.2",
         "propaganistas/laravel-phone": "^6.0",
         "spatie/laravel-activitylog": "^4.10",
+        "spatie/laravel-data": "^4.17",
         "spatie/laravel-permission": "^6.21",
-        "spatie/laravel-settings": "^3.4"
+        "spatie/laravel-settings": "^3.4",
+        "ext-soap": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

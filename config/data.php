@@ -8,7 +8,7 @@ use App\Spar\DTO\SarskildPostadress;
 use App\Spar\DTO\Utlandsadress;
 
 return [
-    'date_format' => 'Y-m-d',
+    'date_format' => [DATE_ATOM, 'Y-m-d'],
 
     'features' => [
         'cast_and_transform_iterables' => true,

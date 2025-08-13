@@ -35,4 +35,14 @@ return [
         ],
     ],
 
+    'spar' => [
+        'cert_password' => env('SPAR_CERT_PASSWORD'),
+        'cert_path' => env('SPAR_CERT_PATH'),
+        'wsdl' => env('SPAR_WSDL'),
+        'kundnrleveransmottagare' => env('SPAR_KundNrLeveransMottagare'),
+        'kundnrslutkund' => env('SPAR_KundNrSlutkund'),
+        'slutanvandarid' => env('SPAR_SlutAnvandarId'),
+        'uppdragid' => env('SPAR_UppdragId'),
+    ],
+
 ];

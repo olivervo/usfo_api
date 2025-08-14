@@ -10,6 +10,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ext-soap": "*",
         "laravel-json-api/laravel": "^5.1",
         "laravel/cashier": "^15.7",
         "laravel/framework": "^12.0",
@@ -21,8 +22,7 @@
         "spatie/laravel-activitylog": "^4.10",
         "spatie/laravel-data": "^4.17",
         "spatie/laravel-permission": "^6.21",
-        "spatie/laravel-settings": "^3.4",
-        "ext-soap": "*"
+        "spatie/laravel-settings": "^3.4"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

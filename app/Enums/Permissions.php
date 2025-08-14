@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use InvalidArgumentException;
+
 enum Permissions: string
 {
     // User Permissions
@@ -10,19 +12,19 @@ enum Permissions: string
     case UsersUpdate = 'users.update';
     case UsersDelete = 'users.delete';
 
-        // Role Permissions
+    // Role Permissions
     case RolesView = 'roles.view';
     case RolesCreate = 'roles.create';
     case RolesUpdate = 'roles.update';
     case RolesDelete = 'roles.delete';
 
-        // Booking Permissions
+    // Booking Permissions
     case BookingsView = 'bookings.view';
     case BookingsCreate = 'bookings.create';
     case BookingsUpdate = 'bookings.update';
     case BookingsDelete = 'bookings.delete';
 
-        // Payment Permissions
+    // Payment Permissions
     case PaymentsView = 'payments.view';
     case PaymentsCreate = 'payments.create';
     case PaymentsUpdate = 'payments.update';
@@ -30,25 +32,25 @@ enum Permissions: string
     case PaymentsProcess = 'payments.process';
     case PaymentsRefund = 'payments.refund';
 
-        // Lodge Permissions
+    // Lodge Permissions
     case LodgesView = 'lodges.view';
     case LodgesCreate = 'lodges.create';
     case LodgesUpdate = 'lodges.update';
     case LodgesDelete = 'lodges.delete';
 
-        // Room Permissions
+    // Room Permissions
     case RoomsView = 'rooms.view';
     case RoomsCreate = 'rooms.create';
     case RoomsUpdate = 'rooms.update';
     case RoomsDelete = 'rooms.delete';
 
-        // Campsite Permissions
+    // Campsite Permissions
     case CampsitesView = 'campsites.view';
     case CampsitesCreate = 'campsites.create';
     case CampsitesUpdate = 'campsites.update';
     case CampsitesDelete = 'campsites.delete';
 
-        // Mooring Permissions
+    // Mooring Permissions
     case MooringsView = 'moorings.view';
     case MooringsCreate = 'moorings.create';
     case MooringsUpdate = 'moorings.update';
@@ -68,7 +70,7 @@ enum Permissions: string
             'room' => [self::RoomsView, self::RoomsCreate, self::RoomsUpdate, self::RoomsDelete],
             'campsite' => [self::CampsitesView, self::CampsitesCreate, self::CampsitesUpdate, self::CampsitesDelete],
             'mooring' => [self::MooringsView, self::MooringsCreate, self::MooringsUpdate, self::MooringsDelete],
-            default => throw new \InvalidArgumentException("Unknown model: {$model}"),
+            default => throw new InvalidArgumentException("Unknown model: {$model}"),
         };
     }
 

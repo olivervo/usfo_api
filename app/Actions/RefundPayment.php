@@ -14,7 +14,7 @@ class RefundPayment
     public function handle(Payment $payment, int $amount)
     {
         // TODO: Create refund at Stripe
-        //$stripeRefund = $payment->billable->refund($payment->stripe_payment_intent);
+        // $stripeRefund = $payment->billable->refund($payment->stripe_payment_intent);
 
         Refund::create([
             'payment_id' => $payment->id,

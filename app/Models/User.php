@@ -15,7 +15,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use Billable, HasFactory, HasRoles, Notifiable, HasApiTokens;
+    use Billable, HasApiTokens, HasFactory, HasRoles, Notifiable;
 
     protected $appends = [
         'full_name',

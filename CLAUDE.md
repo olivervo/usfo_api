@@ -18,9 +18,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run build` - Build production assets
 
 ### Code Quality
-- Uses Tighten Duster for linting and code style formatting (`vendor/bin/duster fix`)
+- Uses Tighten Duster for linting and code style formatting (`vendor/bin/duster fix` or `vendor/bin/duster fix --dirty`).
 - Uses Laravel Pint for PHP code formatting
 - Tests use Pest framework (configured in tests/Pest.php)
+
+## Development Principles
+
+**ALWAYS prefer Laravel's built-in functionality over custom abstractions:**
+
+- **Error Handling**: Use Laravel's automatic JSON error responses (validation, 404s, exceptions) - no custom error classes needed
+- **Pagination**: Use Laravel's built-in `paginate()` method which automatically returns proper JSON structure with meta/links
+- **Authentication**: Leverage Laravel Sanctum's built-in middleware and responses
+- **Validation**: Use Laravel's form request validation with automatic JSON error formatting
+- **Configuration**: Follow Laravel conventions and "convention over configuration" principle
+- **Only create custom classes when Laravel's defaults are genuinely insufficient** for specific business requirements
+
+This codebase serves internal clients (SPA, mobile apps) - Laravel's defaults are perfectly suited for this use case.
 
 ## Architecture Overview
 
@@ -39,7 +52,6 @@ This is a Laravel-based API for managing all bookable and assignable entities of
 
 ### Key Architectural Patterns
 - **Actions Pattern**: Uses Laravel Actions (lorisleiva/laravel-actions) for business logic encapsulation
-- **JSON:API**: Configured for JSON:API standardization
 - **Activity Logging**: Uses Spatie\ActivityLog across major models for audit trails
 - **Permission System**: Spatie\Permission for role-based access control
 - **Stripe Integration**: Laravel Cashier for subscription and payment handling with custom checkout sessions
@@ -47,6 +59,7 @@ This is a Laravel-based API for managing all bookable and assignable entities of
 - **Settings Management**: Spatie\Settings for configurable application settings (PublicSettings, AdminSettings, StaffSettings)
 - **SPAR Integration**: Swedish Population Registry integration via SOAP client with DTO pattern
 - **Data Transfer Objects**: Spatie\LaravelData for structured API responses and SPAR integration
+- **API Structure**: Simple internal API using Laravel Data DTOs with minimal custom abstractions - leverages Laravel's built-in pagination, error handling, and JSON responses
 
 ### Database Structure
 - Uses standard Laravel migrations with proper foreign key relationships

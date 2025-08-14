@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\AssignmentStatus;
 use App\Services\DateService;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -47,7 +48,8 @@ class Camp extends Model
             ->dontSubmitEmptyLogs();
     }
 
-    public function scopePublished(Builder $query): void
+    #[Scope]
+    public function published(Builder $query): void
     {
         $query->where('start_date', '>', today())
             ->whereNull('registration_code')
@@ -62,12 +64,14 @@ class Camp extends Model
         return $this->start_date > today() && is_null($this->registration_code) && ($this->publish_at <= now() || is_null($this->publish_at));
     }
 
-    public function scopeCurrent(Builder $query): void
+    #[Scope]
+    public function current(Builder $query): void
     {
         $query->where('year', DateService::getCurrentYear());
     }
 
-    public function scopeFuture(Builder $query): void
+    #[Scope]
+    public function future(Builder $query): void
     {
         $query->where('year', '>=', DateService::getCurrentYear());
     }

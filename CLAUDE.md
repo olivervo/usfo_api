@@ -18,6 +18,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run build` - Build production assets
 
 ### Code Quality
+- Uses Tighten Duster for linting and code style formatting (`vendor/bin/duster fix`)
 - Uses Laravel Pint for PHP code formatting
 - Tests use Pest framework (configured in tests/Pest.php)
 

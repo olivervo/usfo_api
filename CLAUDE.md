@@ -90,12 +90,6 @@ This is a Laravel-based API for managing all bookable and assignable entities of
 - **Settings Classes**: Configurable application settings (fees, messages, etc.)
 - Custom Enums for status management (RegistrationStatus, PaymentStatus, etc.)
 
-### Testing
-- Uses Pest testing framework
-- SQLite in-memory database for tests
-- Factory patterns for all major models
-- Separate Feature and Unit test suites
-
 ## Git workflow
 - Do not use pull requests for code changes
 - Use issues for bug reports and feature requests

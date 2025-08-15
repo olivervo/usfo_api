@@ -6,6 +6,7 @@ use App\Enums\AssignmentStatus;
 use App\Services\DateService;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -19,20 +20,20 @@ class Camp extends Model
 
     protected $guarded = [];
 
-    protected $casts = [
-        'start_date' => 'date:Y-m-d',
-        'end_date' => 'date:Y-m-d',
-        'publish_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'start_date' => 'date:Y-m-d',
+            'end_date' => 'date:Y-m-d', 
+            'publish_at' => 'datetime',
+        ];
+    }
 
-    // Append accessors
+    // Append accessors - only simple display properties
     protected $appends = [
         'name',
-        'free_males',
-        'free_females',
         'total_spaces',
         'is_available',
-        'availability',
     ];
 
     protected $withCount = [
@@ -49,7 +50,7 @@ class Camp extends Model
     }
 
     #[Scope]
-    public function published(Builder $query): void
+    protected function published(Builder $query): void
     {
         $query->where('start_date', '>', today())
             ->whereNull('registration_code')
@@ -59,19 +60,21 @@ class Camp extends Model
             });
     }
 
-    public function getIsPublishedAttribute(): bool
+    public function isPublished(): bool
     {
-        return $this->start_date > today() && is_null($this->registration_code) && ($this->publish_at <= now() || is_null($this->publish_at));
+        return $this->start_date > today() 
+            && is_null($this->registration_code)
+            && ($this->publish_at <= now() || is_null($this->publish_at));
     }
 
     #[Scope]
-    public function current(Builder $query): void
+    protected function current(Builder $query): void
     {
         $query->where('year', DateService::getCurrentYear());
     }
 
     #[Scope]
-    public function future(Builder $query): void
+    protected function future(Builder $query): void
     {
         $query->where('year', '>=', DateService::getCurrentYear());
     }
@@ -123,19 +126,23 @@ class Camp extends Model
             ->withTimestamps();
     }
 
-    public function getNameAttribute(): string
+    protected function name(): Attribute
     {
-        return $this->camp_name . ' (' . $this->year . ')';
+        return Attribute::make(
+            get: fn () => $this->camp_name . ' (' . $this->year . ')'
+        );
     }
 
-    public function getTotalSpacesAttribute(): int
+    protected function totalSpaces(): Attribute
     {
-        return $this->number_females + $this->number_males;
+        return Attribute::make(
+            get: fn () => $this->number_females + $this->number_males
+        );
     }
 
-    public function getTotalRegistrationsAttribute(): int
+    public function getTotalRegistrations(): int
     {
-        return $this->active_registrations_count;
+        return $this->active_registrations_count ?? 0;
     }
 
     public function activeRegistrations(): HasMany
@@ -143,19 +150,21 @@ class Camp extends Model
         return $this->hasMany(Registration::class)->active();
     }
 
-    public function getIsAvailableAttribute(): bool
+    protected function isAvailable(): Attribute
     {
-        return $this->getFreeMalesAttribute() + $this->getFreeFemalesAttribute() > 0;
+        return Attribute::make(
+            get: fn () => $this->getFreeMales() + $this->getFreeFemales() > 0
+        );
     }
 
-    public function getFreeMalesAttribute(): int
+    public function getFreeMales(): int
     {
-        $males = $this->number_males - $this->males_count;
-        $females = $this->number_females - $this->females_count;
+        $males = $this->number_males - ($this->males_count ?? 0);
+        $females = $this->number_females - ($this->females_count ?? 0);
 
         if ($males <= 0) {
             return 0;
-        } elseif ($this->availability <= 0) {
+        } elseif ($this->getAvailability() <= 0) {
             return 0;
         } elseif ($females < 0) {
             return $males + $females;
@@ -164,14 +173,14 @@ class Camp extends Model
         }
     }
 
-    public function getFreeFemalesAttribute(): int
+    public function getFreeFemales(): int
     {
-        $males = $this->number_males - $this->males_count;
-        $females = $this->number_females - $this->females_count;
+        $males = $this->number_males - ($this->males_count ?? 0);
+        $females = $this->number_females - ($this->females_count ?? 0);
 
         if ($females <= 0) {
             return 0;
-        } elseif ($this->availability <= 0) {
+        } elseif ($this->getAvailability() <= 0) {
             return 0;
         } elseif ($males < 0) {
             return $males + $females;
@@ -180,8 +189,8 @@ class Camp extends Model
         }
     }
 
-    public function getAvailabilityAttribute(): int
+    public function getAvailability(): int
     {
-        return $this->total_spaces - $this->total_registrations;
+        return $this->total_spaces - $this->getTotalRegistrations();
     }
 }

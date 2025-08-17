@@ -52,7 +52,7 @@ class CampFactory extends Factory
     public function unpublished(): self
     {
         return $this->state(fn (array $attributes) => [
-            'publish_at' => null,
+            'publish_at' => now()->addWeek(),
         ]);
     }
 

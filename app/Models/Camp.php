@@ -24,7 +24,7 @@ class Camp extends Model
     {
         return [
             'start_date' => 'date:Y-m-d',
-            'end_date' => 'date:Y-m-d', 
+            'end_date' => 'date:Y-m-d',
             'publish_at' => 'datetime',
         ];
     }
@@ -62,7 +62,7 @@ class Camp extends Model
 
     public function isPublished(): bool
     {
-        return $this->start_date > today() 
+        return $this->start_date > today()
             && is_null($this->registration_code)
             && ($this->publish_at <= now() || is_null($this->publish_at));
     }
@@ -129,7 +129,7 @@ class Camp extends Model
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->camp_name . ' (' . $this->year . ')'
+            get: fn () => $this->camp_name.' ('.$this->year.')'
         );
     }
 

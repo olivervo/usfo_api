@@ -14,7 +14,7 @@ class CampResource extends JsonResource
         $user = $request->user();
 
         return [
-            // Public data - always visible
+            // Public data
             'id' => $this->id,
             'name' => $this->name,
             'campName' => $this->camp_name,
@@ -35,8 +35,8 @@ class CampResource extends JsonResource
             'femalesCount' => $this->females_count ?? 0,
             'activeRegistrationsCount' => $this->active_registrations_count ?? 0,
 
-            // Admin-specific data
-            $this->mergeWhen($user?->hasRole('admin'), [
+            // Restricted to authenticated users with permission to view
+            $this->mergeWhen($user->can('view', $this), [
                 'registrationCode' => $this->registration_code,
                 'publishAt' => $this->publish_at?->format('Y-m-d H:i:s'),
                 'createdAt' => $this->created_at?->format('Y-m-d H:i:s'),

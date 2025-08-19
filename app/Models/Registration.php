@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\RegistrationStatus;
 use App\Enums\Sex;
 use App\Services\DateService;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -68,7 +69,7 @@ class Registration extends Model
     {
         try {
             $PNR = Personnummer::parse($this->DOB);
-            $DOB = $PNR->fullYear . '-' . $PNR->month . '-' . $PNR->day;
+            $DOB = $PNR->fullYear.'-'.$PNR->month.'-'.$PNR->day;
         } catch (PersonnummerException $e) {
             $DOB = $this->DOB;
         }
@@ -81,12 +82,14 @@ class Registration extends Model
         return $this->telephone;
     }
 
-    public function scopeActive($query): void
+    #[Scope]
+    public function active($query): void
     {
         $query->where('status', 'active')->orWhere('created_at', '>=', now()->subMinutes(10));
     }
 
-    public function scopeCurrent($query): void
+    #[Scope]
+    public function current($query): void
     {
         $current_year = DateService::getCurrentYear();
         $query->whereHas('camp', function (Builder $query) use ($current_year) {
@@ -94,12 +97,14 @@ class Registration extends Model
         });
     }
 
-    public function scopeOutstanding($query): void
+    #[Scope]
+    public function unpaid($query): void
     {
         $query->whereNull('paid_complete');
     }
 
-    public function scopeSettled($query): void
+    #[Scope]
+    public function settled($query): void
     {
         $query->whereNotNull('paid_complete');
     }
@@ -129,13 +134,6 @@ class Registration extends Model
         );
     }
 
-    protected function address(): Attribute
-    {
-        return Attribute::make(
-            set: fn ($value) => ucfirst($value),
-        );
-    }
-
     protected function city(): Attribute
     {
         return Attribute::make(
@@ -143,10 +141,10 @@ class Registration extends Model
         );
     }
 
-    protected function email(): Attribute
+    protected function country(): Attribute
     {
         return Attribute::make(
-            set: fn ($value) => strtolower($value),
+            set: fn ($value) => strtoupper($value),
         );
     }
 }

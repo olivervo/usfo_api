@@ -10,6 +10,14 @@ use App\Models\User;
 class RegistrationPolicy
 {
     /**
+     * Determine whether the user can view any models.
+     */
+    public function viewAny(User $user): bool
+    {
+        return $user->can(Permissions::RegistrationsView->name);
+    }
+
+    /**
      * Determine whether the user can view the model.
      */
     public function view(User $user, Registration $registration): bool

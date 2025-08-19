@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Enums\Permissions;
 use App\Models\Registration;
 use App\Models\Student;
 use App\Models\User;
@@ -9,19 +10,27 @@ use App\Models\User;
 class RegistrationPolicy
 {
     /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
-    {
-        return false;
-    }
-
-    /**
      * Determine whether the user can view the model.
      */
     public function view(User $user, Registration $registration): bool
     {
-        return false;
+        return $user->can(Permissions::RegistrationsView->name);
+    }
+
+    /**
+     * Determine whether the user can view confidential registration details.
+     */
+    public function viewDetails(User $user): bool
+    {
+        return $user->can(Permissions::RegistrationsViewDetails->name);
+    }
+
+    /**
+     * Determine whether the user can view a registration's financial information.
+     */
+    public function viewFinances(User $user): bool
+    {
+        return $user->can(Permissions::RegistrationsViewFinances->name);
     }
 
     /**

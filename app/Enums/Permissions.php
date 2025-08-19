@@ -47,6 +47,8 @@ enum Permissions
     case MooringsDelete;
 
     case RegistrationsView;
+    case RegistrationsViewFinances;
+    case RegistrationsViewDetails;
     case RegistrationsCreate;
     case RegistrationsUpdate;
     case RegistrationsDelete;

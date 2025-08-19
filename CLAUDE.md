@@ -17,10 +17,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run dev` - Start Vite development server for asset compilation
 - `npm run build` - Build production assets
 
-### Code Quality
+### Code Quality/styling
 - Uses Tighten Duster for linting and code style formatting (`vendor/bin/duster fix` or `vendor/bin/duster fix --dirty`).
 - Uses Laravel Pint for PHP code formatting
 - Tests use Pest framework (configured in tests/Pest.php)
+- Use camelCase for key names in API resources.
+- Follow Laravel conventions for naming resources, controllers, models, etc.
 
 ## Development Principles
 

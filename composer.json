@@ -12,6 +12,7 @@
         "php": "^8.2",
         "ext-soap": "*",
         "laravel/cashier": "^15.7",
+        "laravel/fortify": "^1.28",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",

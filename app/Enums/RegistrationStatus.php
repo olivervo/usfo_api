@@ -2,9 +2,9 @@
 
 namespace App\Enums;
 
-enum RegistrationStatus
+enum RegistrationStatus: string
 {
-    case pending;
-    case confirmed;
-    case cancelled;
+    case pending = 'pending';
+    case confirmed = 'confirmed';
+    case cancelled = 'cancelled';
 }

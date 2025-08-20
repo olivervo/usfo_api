@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Registration;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -34,7 +35,7 @@ class RegistrationResource extends JsonResource
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
 
-            $this->mergeWhen($user->can('viewDetails', $this), [
+            $this->mergeWhen($user?->can('viewDetails', $this), [
                 'address1' => $this->address_1,
                 'address2' => $this->address_2,
                 'zipcode' => $this->zipcode,
@@ -43,9 +44,14 @@ class RegistrationResource extends JsonResource
                 'dateOfBirth' => $this->date_of_birth?->format('Y-m-d'),
             ]),
 
-            $this->mergeWhen($user->can('viewFinances', $this), [
+            $this->mergeWhen($user?->can('viewFinances', $this), [
                 'invoiceSentAt' => $this->invoice_sent_at,
                 'depositId' => $this->deposit_id,
+            ]),
+
+            // Relationships - only include student if user has permission to view students
+            $this->mergeWhen($user?->can('viewAny', Student::class), [
+                'student' => StudentResource::collection($this->whenLoaded('student')),
             ]),
         ];
     }

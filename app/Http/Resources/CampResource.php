@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Camp;
+use App\Models\Registration;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -36,11 +37,16 @@ class CampResource extends JsonResource
             'activeRegistrationsCount' => $this->active_registrations_count ?? 0,
 
             // Restricted to authenticated users with permission to view
-            $this->mergeWhen($user->can('view', $this), [
+            $this->mergeWhen($user?->can('view', $this), [
                 'registrationCode' => $this->registration_code,
                 'publishAt' => $this->publish_at?->format('Y-m-d H:i:s'),
                 'createdAt' => $this->created_at?->format('Y-m-d H:i:s'),
                 'updatedAt' => $this->updated_at?->format('Y-m-d H:i:s'),
+            ]),
+
+            // Relationships - only include registrations if user has permission to view them
+            $this->mergeWhen($user?->can('viewAny', Registration::class), [
+                'registrations' => RegistrationResource::collection($this->whenLoaded('registrations')),
             ]),
         ];
     }

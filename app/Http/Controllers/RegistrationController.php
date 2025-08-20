@@ -5,20 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreRegistrationRequest;
 use App\Http\Resources\RegistrationResource;
 use App\Models\Registration;
-use Illuminate\Support\Facades\Gate;
 
 class RegistrationController extends Controller
 {
     public function index()
     {
-        Gate::authorize('view', Registration::class);
+        $this->authorize('viewAny', Registration::class);
 
         return RegistrationResource::collection(Registration::all());
     }
 
     public function show(Registration $registration)
     {
-        Gate::authorize('view', $registration);
+        $this->authorize('view', $registration);
 
         return new RegistrationResource($registration);
     }

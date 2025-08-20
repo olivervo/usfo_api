@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Traits\HandlesPagination;
 use App\Http\Resources\CampResource;
 use App\Models\Camp;
+use App\Traits\HandlesPagination;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CampController extends Controller
@@ -16,11 +15,12 @@ class CampController extends Controller
 
     public function index(Request $request)
     {
-        $query = QueryBuilder::for(Camp::published())
+        $query = QueryBuilder::for(Camp::class)
             ->allowedFilters([
                 AllowedFilter::exact('year'),
                 AllowedFilter::exact('age_group'),
                 AllowedFilter::exact('camp_category'),
+                AllowedFilter::scope('published'),
             ]);
 
         $results = $this->paginateOrGet($request, $query);
@@ -30,6 +30,12 @@ class CampController extends Controller
 
     public function show(Request $request, Camp $camp)
     {
-        return $camp->toResource();
+        $this->authorize('view', $camp);
+
+        $camp = QueryBuilder::for(Camp::where('id', $camp->id))
+            ->allowedIncludes(['registrations'])
+            ->first();
+
+        return new CampResource($camp);
     }
 }

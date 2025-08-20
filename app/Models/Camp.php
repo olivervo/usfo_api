@@ -150,6 +150,11 @@ class Camp extends Model
         return $this->hasMany(Registration::class)->active();
     }
 
+    public function registrations(): HasMany
+    {
+        return $this->hasMany(Registration::class);
+    }
+
     protected function isAvailable(): Attribute
     {
         return Attribute::make(

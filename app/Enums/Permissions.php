@@ -73,4 +73,6 @@ enum Permissions
     case MembershipsUpdate;
     case MembershipsDelete;
 
+    case SparSearch;
+
 }

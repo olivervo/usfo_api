@@ -3,8 +3,13 @@
 namespace App\Actions\Spar;
 
 use App\Data\Spar\PersonsokningSvarspost;
+use App\Enums\Permissions;
+use App\Rules\ValidPersonalId;
 use App\Spar\SoapClient;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Lorisleiva\Actions\ActionRequest;
 use Lorisleiva\Actions\Concerns\AsAction;
 use Personnummer\Personnummer;
 
@@ -33,11 +38,25 @@ class SearchSpar
         return (new SoapClient)->searchById($id);
     }
 
-    public function asController(Request $request): PersonsokningSvarspost
+    // ActionRequest enables authorize and validate methods
+    public function asController(ActionRequest $request): PersonsokningSvarspost
     {
         return $this->handle(
             $request->input('id'),
             $request->boolean('cache', true)
         );
+    }
+
+    public function authorize(ActionRequest $request): bool
+    {
+        return $request->user()?->hasPermissionTo(Permissions::SparSearch->name) ?? false;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'id' => ['required', 'string', new ValidPersonalId],
+            'cache' => ['boolean'],
+        ];
     }
 }

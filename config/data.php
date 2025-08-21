@@ -1,11 +1,11 @@
 <?php
 
-use App\Spar\DTO\Casts\GetLatestCast;
-use App\Spar\DTO\Folkbokforingsadress;
-use App\Spar\DTO\Namn;
-use App\Spar\DTO\Persondetaljer;
-use App\Spar\DTO\SarskildPostadress;
-use App\Spar\DTO\Utlandsadress;
+use App\Data\Spar\Casts\GetLatestCast;
+use App\Data\Spar\Folkbokforingsadress;
+use App\Data\Spar\Namn;
+use App\Data\Spar\Persondetaljer;
+use App\Data\Spar\SarskildPostadress;
+use App\Data\Spar\Utlandsadress;
 
 return [
     'date_format' => [DATE_ATOM, 'Y-m-d'],

@@ -2,7 +2,7 @@
 
 namespace App\Spar;
 
-use App\Spar\DTO\PersonsokningSvarspost;
+use App\Data\Spar\PersonsokningSvarspost;
 use RuntimeException;
 use SoapClient as BaseSoapClient;
 use SoapFault;

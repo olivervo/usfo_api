@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Spar\DTO;
+namespace App\Data\Spar;
 
 use Carbon\Carbon;
 use Spatie\LaravelData\Attributes\MapOutputName;

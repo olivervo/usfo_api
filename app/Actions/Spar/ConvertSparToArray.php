@@ -2,7 +2,7 @@
 
 namespace App\Actions\Spar;
 
-use App\Spar\DTO\PersonsokningSvarspost;
+use App\Data\PersonsokningSvarspost;
 use Lorisleiva\Actions\Concerns\AsAction;
 
 class ConvertSparToArray

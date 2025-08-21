@@ -2,8 +2,7 @@
 
 namespace App\Actions\Spar;
 
-use App\Http\Resources\SparResource;
-use App\Spar\DTO\PersonsokningSvarspost;
+use App\Data\Spar\PersonsokningSvarspost;
 use App\Spar\SoapClient;
 use Illuminate\Http\Request;
 use Lorisleiva\Actions\Concerns\AsAction;

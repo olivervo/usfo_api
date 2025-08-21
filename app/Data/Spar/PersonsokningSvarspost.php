@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Spar\DTO;
+namespace App\Data\Spar;
 
-use App\Spar\DTO\Casts\BooleanCast;
+use App\Data\Spar\Casts\BooleanCast;
 use Carbon\Carbon;
 use Spatie\LaravelData\Attributes\MapOutputName;
 use Spatie\LaravelData\Attributes\WithCast;

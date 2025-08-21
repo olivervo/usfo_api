@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Spar\DTO\Casts;
+namespace App\Data\Spar\Casts;
 
 use App\Enums\Sex;
 use Spatie\LaravelData\Casts\Cast;

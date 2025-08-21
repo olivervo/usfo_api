@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Spar\DTO;
+namespace App\Data\Spar;
 
 use Spatie\LaravelData\Attributes\MapOutputName;
 use Spatie\LaravelData\Data;

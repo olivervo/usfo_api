@@ -2,9 +2,12 @@
 
 namespace App\Actions\Spar;
 
+use App\Http\Resources\SparResource;
 use App\Spar\DTO\PersonsokningSvarspost;
 use App\Spar\SoapClient;
+use Illuminate\Http\Request;
 use Lorisleiva\Actions\Concerns\AsAction;
+use Personnummer\Personnummer;
 
 class SearchSpar
 {
@@ -12,6 +15,12 @@ class SearchSpar
 
     public function handle(string $id, bool $cache = true): PersonsokningSvarspost
     {
+        // Validate id number
+        if(!Personnummer::valid($id)) {
+            abort(422, 'Invalid personal id number');
+        }
+
+        // Return cached response if enabled
         if ($cache) {
             return cache()->remember(
                 'spar_' . hash('sha256', $id),
@@ -23,5 +32,13 @@ class SearchSpar
         }
 
         return (new SoapClient)->searchById($id);
+    }
+
+    public function asController(Request $request): PersonsokningSvarspost
+    {
+        return $this->handle(
+            $request->input('id'),
+            $request->boolean('cache', true)
+        );
     }
 }

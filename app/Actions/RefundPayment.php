@@ -11,7 +11,7 @@ class RefundPayment
 {
     use AsAction;
 
-    public function handle(Payment $payment, int $amount)
+    public function handle(Payment $payment, int $amount): void
     {
         // TODO: Create refund at Stripe
         // $stripeRefund = $payment->billable->refund($payment->stripe_payment_intent);

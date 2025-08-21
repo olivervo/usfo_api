@@ -31,4 +31,11 @@ class PaymentFactory extends Factory
             'paid_at' => fake()->dateTimeThisYear(),
         ];
     }
+
+    public function forUser(User $user): self
+    {
+        return $this->state(fn (array $attributes) => [
+            'user_id' => $user->id,
+        ]);
+    }
 }

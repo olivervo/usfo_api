@@ -16,16 +16,18 @@ class RegistrationFactory extends Factory
 {
     protected $model = Registration::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         $student = Student::factory()->create();
 
-        $payment = Payment::factory()->create();
+        // Try to get recycled user, fallback to creating new one
+        $user = $this->recycledModels['App\Models\User'] ?? null;
+        if ($user && $user->isNotEmpty()) {
+            $selectedUser = $user->random();
+            $payment = Payment::factory()->forUser($selectedUser)->create();
+        } else {
+            $payment = Payment::factory()->create();
+        }
 
         return [
             'camp_id' => Camp::factory(),

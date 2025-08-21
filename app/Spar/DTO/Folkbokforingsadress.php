@@ -3,12 +3,14 @@
 namespace App\Spar\DTO;
 
 use Carbon\Carbon;
+use Spatie\LaravelData\Attributes\MapOutputName;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Optional;
 
 class Folkbokforingsadress extends Data
 {
     public function __construct(
+        #[MapOutputName('swedishAddress')]
         public SvenskAdress $SvenskAdress,
         /* public Carbon $DatumFrom,
         public Carbon $DatumTill,

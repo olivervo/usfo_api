@@ -41,7 +41,7 @@ class SoapClient
      *
      * @throws RuntimeException If the SOAP request fails
      */
-    public function searchById(string $id)
+    public function searchById(string $id): PersonsokningSvarspost
     {
         try {
             $response = $this->client->PersonSok([
@@ -57,7 +57,7 @@ class SoapClient
         return PersonsokningSvarspost::from($response->PersonsokningSvarspost);
     }
 
-    private function createIdentification()
+    private function createIdentification(): array
     {
         return [
             'KundNrLeveransMottagare' => config('services.spar.kundnrleveransmottagare'),

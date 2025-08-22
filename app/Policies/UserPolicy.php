@@ -12,7 +12,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can(Permissions::UsersView);
+        return $user->can(Permissions::UsersView->name);
     }
 
     /**
@@ -20,7 +20,7 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return $user->can(Permissions::UsersView) || $user->id === $model->id;
+        return $user->can(Permissions::UsersView->name) || $user->id === $model->id;
     }
 
     /**
@@ -28,7 +28,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(Permissions::UsersCreate);
+        return $user->can(Permissions::UsersCreate->name);
     }
 
     /**
@@ -36,7 +36,7 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return $user->can(Permissions::UsersUpdate) || $user->id === $model->id;
+        return $user->can(Permissions::UsersUpdate->name) || $user->id === $model->id;
     }
 
     /**
@@ -44,7 +44,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        return $user->can(Permissions::UsersDelete) && $user->id !== $model->id;
+        return $user->can(Permissions::UsersDelete->name) && $user->id !== $model->id;
     }
 
     /**
@@ -52,7 +52,7 @@ class UserPolicy
      */
     public function restore(User $user, User $model): bool
     {
-        return $user->can(Permissions::UsersUpdate);
+        return $user->can(Permissions::UsersUpdate->name);
     }
 
     /**
@@ -60,6 +60,6 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model): bool
     {
-        return $user->can(Permissions::UsersDelete) && $user->id !== $model->id;
+        return $user->can(Permissions::UsersDelete->name) && $user->id !== $model->id;
     }
 }

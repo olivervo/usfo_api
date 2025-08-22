@@ -46,6 +46,9 @@ class User extends Authenticatable
         'remember_token',
         'id_number',
         'password',
+        'two_factor_secret',
+        'two_factor_recovery_codes',
+        'two_factor_confirmed_at',
     ];
 
     public function payments(): MorphMany
@@ -73,7 +76,7 @@ class User extends Authenticatable
         ];
     }
 
-    public function stripeMetadata()
+    public function stripeMetadata(): array
     {
         return [
             'billable_id' => $this->id,
